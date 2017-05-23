@@ -1,0 +1,32 @@
+baseurl = "https://pkhanal.github.io"
+DefaultContentLanguage = "en"
+theme = "beautifulhugo"
+metaDataFormat = "yaml"
+pygmentsUseClasses = true
+pygmentCodeFences = true
+# disqusShortname = ""
+
+[Params]
+  logo = "img/avatar-icon.png"
+  favicon = "img/favicon.ico"
+  commit = false
+  comments = true
+
+[Author]
+  name = "Prashant Khanal"
+  email = "prashantkhanal@gmail.com"
+  github = "pkhanal"
+  twitter = "ipras"
+  linkedin = "iprashant"
+  stackoverflow = "users/1718403/prashant"
+  # youtube = "user/username" # or channel/channelname
+
+[[menu.main]]
+    name = "Blog"
+    url = ""
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3
