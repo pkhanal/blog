@@ -9,7 +9,7 @@ Starting <strong>v3.0.1</strong>, <a href="https://github.com/watson-developer-c
 
 <!--more-->
 
-For each Service class (TextToSpeech, LanguageTranslator, SpeechToText...) now has <strong>``.rx()``</strong> that returns <strong>``CompletableFuture``</strong>. ``CompletableFuture`` provides powerful APIs to build asynchronous system.
+For each Service class (TextToSpeech, LanguageTranslator, SpeechToText...) now has <strong>``.rx()``</strong> method that returns <strong>``CompletableFuture``</strong>. ``CompletableFuture`` provides powerful APIs to build asynchronous system.
 
 Let us consider a scenario and try to achive that using Reactive Watson API. Let's say we want to achieve following use cases in our cognitive system:
 
