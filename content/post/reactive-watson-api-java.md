@@ -1,8 +1,8 @@
 ---
 date: 2017-05-25T19:10:32-07:00
-subtitle: ""
+subtitle: "Watson Developer Cloud Java SDK"
 tags: ["java", "cognitive", "watson"]
-title: Reactive Watson APIs for Java
+title: Reactive Cognitive API
 ---
 
 Starting <strong>v3.0.1</strong>, <a href="https://github.com/watson-developer-cloud/java-sdk" target="_blank">Watson Developer Cloud Java SDK</a> has introduced <a href="https://github.com/watson-developer-cloud/java-sdk#introduce-reactive-api-call-for-v301" target="_blank">Reactive API</a> that allows developers to compose and combine asynchronous congitive operations in a reactive fashion.
