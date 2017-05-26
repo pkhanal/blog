@@ -56,3 +56,5 @@ On line **12**, ``App::processSpeechSynthesis`` is a reference to the method tha
 {{</ highlight >}}
 
 The asynchronous pattern discussed above is just a tip of iceberg and it can be applied in many scenarios to build asynchronous system.
+
+The code sample is available in <a href="https://github.com/pkhanal/watson-reactive-translation-tts" target="_blank">Github</a>.
