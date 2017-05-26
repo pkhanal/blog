@@ -39,9 +39,9 @@ Assuming that the bluemix account is already created and both <a href="https://c
     ...
 {{</ highlight >}}
 
-Although it may look intimidating at first glance but it actually makes more sense once we get to know the Reactive API and what it does. On line **9**, we are grabbing the ``CompletableFuture`` for the translation operation and we are chaining it with the text to speech API on line **11**. Once the translation result is available, it is passed to the text to speech operation. ``thenApply`` is used to pass in the result from one asynchronous operation to another operation. On line **10**, we are grabbing the translated text and passing it to the text to speech operation. Finally, we use the **thenAccept** to mark an end of chaining which tells that we are now ready to consume the result.
+Although it may look intimidating at first glance but it actually makes more sense once we get to know the Reactive API and what it does. On line **11**, we are grabbing the ``CompletableFuture`` for the translation operation and we are chaining it with the text to speech API on line **13**. Once the translation result is available, it is passed to the text to speech operation. ``thenApply`` is used to pass in the result from one asynchronous operation to another operation. On line **11**, we are grabbing the translated text from the result object of the translation and passing it to the text to speech operation. Finally, we use the **thenAccept** to mark an end of chaining which tells that we are now ready to consume the result.
 
-On line **12**, ``App::processSpeechSynthesis`` is a reference to the method that handles the result of speech synthesis. Method reference is a feature introduced in Java 8 that allows us to reference constructors or methods without executing them. ``processSpeechSynthesis`` is a static method that plays the audio data receivied from text to speech service.
+On line **14**, ``App::processSpeechSynthesis`` is a reference to the method that handles the result of speech synthesis. Method reference is a feature introduced in Java 8 that allows us to reference constructors or methods without executing them. ``processSpeechSynthesis`` is a static method that plays the audio data receivied from text to speech service.
 
 
 {{< highlight java "linenos=inline">}}
