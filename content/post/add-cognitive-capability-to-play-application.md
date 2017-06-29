@@ -256,7 +256,9 @@ The final step is to add routes for the rest endpoint. Add the following route i
 GET    /imageClassification         controllers.VisualRecognitionController.classifyImage(imageUrl:String)
 ```
 
-### Test RESt endpoint with curl command
+Here we have created a REST endpoint ``/imageClassification`` that can be accessed by ``GET`` method and it requires a query parameter called ``imageUrl``. For more details on routing, you can read the following <a href="https://www.playframework.com/documentation/2.6.x/JavaRouting">doc</a>.
+
+### Test REST endpoint with curl command
 
 Now we can run the play application and test image classification REST endpoint through following command:
 
