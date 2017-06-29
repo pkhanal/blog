@@ -9,7 +9,7 @@ Starting <strong>v3.0.1</strong>, <a href="https://github.com/watson-developer-c
 
 <!--more-->
 
-For each Service class (TextToSpeech, LanguageTranslator, SpeechToText...) now has <strong>``.rx()``</strong> method that returns <strong>``CompletableFuture``</strong>. ``CompletableFuture`` provides powerful APIs to build asynchronous system.
+Each Service(TextToSpeech, LanguageTranslator, SpeechToText…) API has <strong>.rx()</strong> method that returns <strong>CompletableFuture</strong>. <strong>CompletableFuture</strong> provides powerful APIs to chain multiple asynchronous calls.
 
 Let us consider a scenario and try to achive that using Reactive Watson API. Let's say we want to achieve following use cases in our cognitive system:
 
@@ -41,7 +41,7 @@ Assuming that the bluemix account is already created and both <a href="https://c
 
 Although it may look intimidating at first glance but it actually makes more sense once we get to know the Reactive API and what it does. On line **11**, we are grabbing the ``CompletableFuture`` for the translation operation and we are chaining it with the text to speech API on line **13**. Once the translation result is available, it is passed to the text to speech operation. ``thenApply`` is used to pass in the result from one asynchronous operation to another operation. On line **11**, we are grabbing the translated text from the result object of the translation and passing it to the text to speech operation. Finally, we use ``thenAccept`` to mark an end of chaining which tells that we are now ready to consume the result.
 
-On line **14**, ``App::processSpeechSynthesis`` is a reference to the method that handles the result of speech synthesis. Method reference is a feature introduced in Java 8 that allows us to reference constructors or methods without executing them. ``processSpeechSynthesis`` is a static method that plays the audio data receivied from text to speech service.
+On line **14**, ``App::processSpeechSynthesis`` is a reference to the method that handles the result of speech synthesis. Method reference is a feature introduced in Java 8 that allows us to reference constructors or methods without executing them. ``processSpeechSynthesis`` is a static method that plays the audio data received from text to speech service.
 
 
 {{< highlight java "linenos=inline">}}
