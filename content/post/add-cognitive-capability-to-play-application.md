@@ -292,7 +292,7 @@ You will see the following response message in the console:
 
 ### Conclusion
 
-All in all, I had fun trying this out since my goal was to get something up and running in a quick time. Although, the recipe may not be the production ready but it did help me to understand the bits and pieces of Lightbend Reactive Platform and gave me a good foundation to take it to the next level. Though I didn’t show the actor that encapsulates the language translation behavior via watson language translator service, the pattern is similar to what we did for Visual Recognition. You can find the full source code in the <a href="https://github.com/pkhanal/lightbend-watson-integration">GitHub project</a>.
+All in all, I had fun trying this out since my goal was to get something up and running in a quick time. Although, the recipe may not be the production ready but it did help me to understand the bits and pieces of Lightbend Reactive Platform and gave me a good foundation to take it to the next level.
 
 ### Resources
 
