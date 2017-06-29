@@ -251,8 +251,8 @@ public class ImageClassifier extends UntypedAbstractActor {
 
 The ActorSystem is used to create and/or use an actor. The basic functionality available with Actor is to send a message for computation or processing. There are two patterns for that:
 
-- tell pattern where there is no response from actor. it’s a fire and forget scenario.
-- ask pattern where actor sends response as Future object. This pattern is used when sending message to actor from a REST endpoint where client expects the response. The ask pattern returns a Scala Future, which you can convert to a Java CompletionStage using scala.compat.java8.FutureConverts.toJava, and then map to your own result type.
+- **tell pattern** where there is no response from actor. it’s a fire and forget scenario.
+- **ask pattern** where actor sends response as Future object. This pattern is used when sending message to actor from a REST endpoint where client expects the response. The ask pattern returns a Scala Future, which you can convert to a Java CompletionStage using scala.compat.java8.FutureConverts.toJava, and then map to our own result type.
 
 
 ### Add Routes
