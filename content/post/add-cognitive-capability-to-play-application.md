@@ -124,7 +124,7 @@ public class Settings extends AbstractExtensionId<SettingsImpl>
 
 {{</ highlight >}}
 
-We will late use the application settings defined in configuration file through SettingsImpl & Settings classes in Actor classes.
+We will later use the application settings defined in configuration file through **SettingsImpl** & **Settings** in Actors.
 
 ### Define Actors
 We will create Actor that encapsulates behavior of corresponding Watson Service. Below is a <a href="https://github.com/pkhanal/lightbend-watson-integration/blob/master/app/actors/ImageClassifier.java">visual recognition actor</a> that given an image url, will classify the image and detect faces in the image using Watson Java SDK for visual recognition.
@@ -302,7 +302,7 @@ You will see the following response message in the console:
 
 ### Conclusion
 
-All in all, I had fun trying this out since my goal was to get something up and running in a quick time. Although, the recipe may not be the production ready but it did help me to understand the bits and pieces of Lightbend Reactive Platform and gave me a good foundation to take it to the next level.
+All in all, I had fun trying this out since my goal was to get something up and running in a quick time. Akka & Play are mature frameworks widely used in the industry and backed by strong documentation and developer community. That really helped me to get my hands dirty in quick time and be able to build a simple application. Although, the recipe may not be the production ready but it did help me to understand the bits and pieces of Lightbend Reactive Platform and gave me a good foundation take it to the next level.
 
 ### Resources
 
