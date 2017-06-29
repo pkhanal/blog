@@ -17,7 +17,15 @@ First, let’s review the architecture.
 
 ![Architecture](/img/architecture.jpg?raw=true "Architecture")
 
-In the above application, each asynchronous call to a watson cognitive service is encapsulated to an Akka Actor. Actor is capable of much more than just encapsulating a behavior to process a message that it receives. For more details on Akka Actor, I would recommend going though the following <a href="http://doc.akka.io/docs/akka/current/java/actors.html">doc</a>. The following <a href="https://www.youtube.com/watch?v=6Cb1wSVRI-Q">talk</a>a from Jonas Bonér provides a great explanation on Akka Actor from the perspective of reactive system.
+The play application exposes following REST endpoints:
+
+<strong>/imageClassification?imageUrl=\<image_url\></strong><BR />
+classify an image i.e. identify objects in an image leveraging <a href="https://www.ibm.com/watson/developercloud/visual-recognition.html">Watson Visual Recognition</a>. Watson Visual Recognition enables developer to classify image content using machine learning.
+
+<strong>/translation?text=\<text\>&from=\<source_langauge\>&to=\<target_langauge\></strong><BR />
+translates given text to target language using <a href="">Watson Lanugage Translator</a>
+ 
+In the above application, each asynchronous call to a watson cognitive service is encapsulated to an Akka Actor. Actor is capable of much more than just encapsulating a behavior to process a message that it receives. For more details on Akka Actor, I would recommend going though the following <a href="http://doc.akka.io/docs/akka/current/java/actors.html">doc</a>. The following <a href="https://www.youtube.com/watch?v=6Cb1wSVRI-Q">talk</a> from Jonas Bonér provides a great explanation on Akka Actor from the perspective of reactive system.
 
 ### Get Started
 The following <a href="https://github.com/playframework/play-java-starter-example/tree/2.6.x">starter</a> project is a great way to get started with Java based Play application. You can clone the project and import into your IDE (Intellij, Eclipse..) of your choice. For details on how to import the project into your IDE, take a look the the following <a href="https://www.playframework.com/documentation/2.6.x/IDE">doc</a>. Once you follow the steps, you should be able to run/debug the application from your IDE.
