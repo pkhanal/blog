@@ -193,6 +193,8 @@ Notice here that the **ImageClassifier** defines a static method called **getPro
 
 http://doc.akka.io/docs/akka/current/java/actors.html
 
+I am using the pattern matching for the received message in the Actor to handle the Message. Under the implementation of the in-line message handler, I am using <a href="https://github.com/watson-developer-cloud/java-sdk/tree/develop/visual-recognition">Watson Java SDK for Visual Recognition</a> to recognize the object(s) in the image.
+
 I was blown away by the API design backed by strong documentation while working on this project. The functional approach to the API design made things lot simpler to write. The documentation is well writtern and provides various recommended practices for different situations when developing Actors. I would highly recommend going through the doc when getting started.
 
 ### Define REST Endpoint
