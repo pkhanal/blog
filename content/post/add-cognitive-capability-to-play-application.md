@@ -133,16 +133,18 @@ We will create Actor that encapsulates behavior of corresponding Watson Service.
 
 package actors;
 
-
+import akka.actor.AbstractActor;
 import akka.actor.Props;
-import akka.actor.UntypedAbstractActor;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 import settings.Settings;
 import settings.SettingsImpl;
 
-public class ImageClassifier extends UntypedAbstractActor {
+import javax.inject.Singleton;
+
+@Singleton
+public class ImageClassifier extends AbstractActor {
 
     private final VisualRecognition service;
 
@@ -160,15 +162,16 @@ public class ImageClassifier extends UntypedAbstractActor {
     }
 
     @Override
-    public void onReceive(Object o) throws Throwable {
-        if (o instanceof ImageClassifier.Message) {
-            Message message = (Message) o;
-            ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
-                    .url(message.imageUrl)
-                    .build();
-            VisualClassification result = service.classify(options).execute();
-            sender().tell(result.toString(), getSelf());
-        }
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(Message.class, message -> {
+                    ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
+                            .url(message.imageUrl)
+                            .build();
+                    VisualClassification result = service.classify(options).execute();
+                    getSender().tell(result.toString(), getSelf());
+                })
+                .build();
     }
 
     // protocol
@@ -186,73 +189,54 @@ public class ImageClassifier extends UntypedAbstractActor {
 }
 {{</ highlight >}}
 
-Notice here that the **ImageClassifier** defines a static method called **getProps**, this method returns a **Props** object that describes how to create the actor. This is a good Akka convention, to separate the instantiation logic from the code that creates the actor.
-Another best practice shown here is that the messages that ImageClassifier receives are defined as static inner classes called **Message**. It serves as a protocol of the message to send to the ImageClassifier actor. All the details on the Akka Actor can be read from the <a href="http://doc.akka.io/docs/akka/current/java/actors.html">doc</a>.
+Notice here that the **ImageClassifier** defines a static method called **getProps**, this method returns a **Props** object that describes how to create the actor. This is a good Akka convention, to separate the instantiation logic from the code that creates the actor. Another best practice shown here is that the messages that ImageClassifier receives are defined as static inner class called **Message**. It serves as a protocol of the message to send to the ImageClassifier actor. All the details on the Akka Actor can be read from the following doc.
 
-### Define REST Endpoint
-Now that we have defined an Actor and encapsulated a behavior, we can now create a REST endpoint for client to consume Actor’s behavior over the web through HTTP Request. We can create a REST Endpoint by defining a <a href="https://github.com/pkhanal/lightbend-watson-integration/blob/master/app/controllers/VisualRecognitionController.java">Controller</a> that creates and uses the ImageClassifier actor.
+http://doc.akka.io/docs/akka/current/java/actors.html
+
+I was blown away by the API design backed by strong documentation while working on this project. The functional approach to the API design made things lot simpler to write. The documentation is well writtern and provides various recommended practices for different situations when developing Actors. I would highly recommend going through the doc when getting started.
 
 {{< highlight java>}}
+package controllers;
 
-package actors;
 
-import akka.actor.Props;
-import akka.actor.UntypedAbstractActor;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
-import settings.Settings;
-import settings.SettingsImpl;
+import actors.ImageClassifier;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import play.mvc.Controller;
+import play.mvc.Result;
 
-public class ImageClassifier extends UntypedAbstractActor {
+import javax.inject.Inject;
+import java.util.concurrent.CompletionStage;
 
-    private final VisualRecognition service;
+import static akka.pattern.PatternsCS.ask;
 
-    {
-        final SettingsImpl settings =
-                Settings.SettingsProvider.get(getContext().getSystem());
+public class VisualRecognitionController extends Controller {
 
-        // https://github.com/watson-developer-cloud/java-sdk/tree/develop/language-translator
-        service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
-        service.setApiKey(settings.WATSON_VISUAL_RECOGNITION_KEY);
+    final ActorRef imageClassifer;
+
+    @Inject
+    public VisualRecognitionController(ActorSystem system) {
+        imageClassifer = system.actorOf(ImageClassifier.getProps());
     }
 
-    public static Props getProps() {
-        return Props.create(ImageClassifier.class);
+    public CompletionStage<Result> classifyImage(String imageUrl) {
+        ImageClassifier.Message message = new ImageClassifier.Message(imageUrl);
+        return ask(imageClassifer, message, 5000L)
+                .thenApply(response -> ok((String) response));
     }
 
-    @Override
-    public void onReceive(Object o) throws Throwable {
-        if (o instanceof ImageClassifier.Message) {
-            Message message = (Message) o;
-            ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
-                    .url(message.imageUrl)
-                    .build();
-            VisualClassification result = service.classify(options).execute();
-            sender().tell(result.toString(), getSelf());
-        }
-    }
-
-    // protocol
-    public static class Message {
-        private final String imageUrl;
-
-        public Message(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
-
-        public String toString() {
-            return "Image Url: " + imageUrl;
-        }
-    }
 }
-
 {{</ highlight >}}
 
 The ActorSystem is used to create and/or use an actor. The basic functionality available with Actor is to send a message for computation or processing. There are two patterns for that:
 
-- **tell pattern** where there is no response from actor. it’s a fire and forget scenario.
-- **ask pattern** where actor sends response as **Future** object. This pattern is used when sending message to actor from a REST endpoint where client expects the response. The ask pattern returns a Scala Future, which you can convert to a Java **CompletionStage** using **scala.compat.java8.FutureConverts.toJava**, and then map to our own result type.
+- **tell pattern (Fire-forget)** where there is no response from actor.
+  I would recommend reading the following doc on **tell pattern**:
+  http://doc.akka.io/docs/akka/current/java/actors.html#tell-fire-forget
+
+- **ask pattern (Send-And-Receive-Future)** where actor sends response. This pattern is used when sending message to actor from a REST endpoint where client expects the response.
+I would recommend reading the following doc on the **ask pattern**:
+http://doc.akka.io/docs/akka/current/java/actors.html#ask-send-and-receive-future
 
 
 ### Add Routes
