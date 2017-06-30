@@ -195,6 +195,10 @@ http://doc.akka.io/docs/akka/current/java/actors.html
 
 I was blown away by the API design backed by strong documentation while working on this project. The functional approach to the API design made things lot simpler to write. The documentation is well writtern and provides various recommended practices for different situations when developing Actors. I would highly recommend going through the doc when getting started.
 
+### Define REST Endpoint
+
+Now that we have defined an Actor and encapsulated a behavior, we can now create a REST endpoint for client to consume Actor’s behavior over the web through HTTP Request. We can create a REST Endpoint by defining a <a href="https://github.com/pkhanal/lightbend-watson-integration/blob/master/app/controllers/VisualRecognitionController.java">Controller</a> that creates and uses the ImageClassifier actor.
+
 {{< highlight java>}}
 package controllers;
 
